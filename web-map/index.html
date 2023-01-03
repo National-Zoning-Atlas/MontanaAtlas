@@ -2,8 +2,8 @@
 <html>
 <head>
 	
-  <title>Connecticut Zoning Atlas</title>
-  <meta name="description" content="This interactive map shows how outdated zoning laws make it hard to build diverse, affordable housing in Connecticut.">
+  <title>Montana Zoning Atlas</title>
+  <meta name="description" content="This interactive map shows how outdated zoning laws make it hard to build diverse, affordable housing in Montana.">
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,11 @@
   <script src="data/demographics.js"></script>
   <script src="data/transit.js"></script>
   <script src="scripts/map.js"></script>
-	
+
+  <!-- Load Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed&display=swap" rel="stylesheet">
+	<style> @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed&display=swap'); </style>
+
 </head>
 
 <body class="helvetica">
@@ -49,11 +53,11 @@
   <div id="sidebar" class="pa3 br1">
 
     <div class="cf">
-      <img src="./img/ct-zoning-atlas-logo.png" style="height: 45px; width: auto;" alt="CT Zoning Atlas">
+      <img src=".\img\Montana Zoning Atlas logo brainstorm-03.png" style="height: 45px; width: auto;" alt="MT Zoning Atlas">
     </div>
 
-    <h1 class="f3 mv2 black-90 dn" id="CtZoningAtlas">
-      Connecticut Zoning Atlas
+    <h1 class="f3 mv2 black-90 dn" id="MtZoningAtlas">
+      Montana Zoning Atlas
     </h1>
 
     <p class="f5 mv2">
@@ -354,7 +358,8 @@
 
           </div>
         </div>
-
+        
+        <!-- ADUs -->
         <div class="filter-group">
           <label class="f5">
             <input type="checkbox" class="w1 h1 main-in-group" name="AD" value="">
@@ -411,6 +416,8 @@
         </div>
       </div>
 
+      <!-- Overlays -->
+
       <div id="Overlays">
         <h2 class="f5 mb1 black-40">Overlays</h2>
 
@@ -423,7 +430,7 @@
 
         <label class="f5" title="">
           <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="fs">
-            Federal/State Public Lands
+            Federal/Public Lands
         </label>
 
         <br>
@@ -445,6 +452,8 @@
         </div>
       </div>
 
+      <!-- Opacity Slider -->
+
       <div id="ZoneOpacity">
         <h2 class="f5 mb1 black-40">Zone Opacity</h2>
         <input type="range" min="1" max="100" value="90" name="opacity">
@@ -452,12 +461,13 @@
 
     </form>
 
+    <!-- Legend Footer -->
     <p class="black-40 f6 mb0">
-      This map was created to support the
-      <a href="http://www.desegregatect.org/" class="link dim black-50 underline" target="_blank">
-        DesegregateCT</a> movement, with support from the
-      <a href="https://www.ctdata.org" class="link dim black-50 underline" target="_blank">
-        CT Data Collaborative</a>.
+      This map was created by the
+      <a href="https://frontierinstitute.org/" class="link dim black-50 underline" target="_blank">
+        Frontier Institute</a>, with support from the
+      <a href="https://www.zoningatlas.org" class="link dim black-50 underline" target="_blank">
+        National Zoning Atlas</a>.
     </p>
 
   </div>

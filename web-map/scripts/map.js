@@ -6,10 +6,10 @@ var dataLayer; // GeoJSON layer with district data
 var overlays = {};  // An object to contain overlay layer groups, eg `transit`
 
 var zone2color = {
-  'R': '#645097', // primarily residential, satisfied
-  'M': '#815196', // mixed with residential, satisfied
-  'N': '#BA6CA4', // nonresidential, satisfied
-  'NS': '#d0d0d0', // not satisfied
+  'R': '#485870', // primarily residential, satisfied
+  'M': '#ce823b', // mixed with residential, satisfied
+  'N': '#868e98', // nonresidential, satisfied
+  'NS': '#f2eeeb', // not satisfied
 }
 
 // Columns in the original spreadsheet
@@ -42,8 +42,8 @@ var loadZones = function(geojson) {
   var filters = getFilters();
 
   dataLayer = L.geoJSON(geojson, {
-    attribution: 'data by <a href="https://www.desegregatect.org/">Desegregate CT</a>,\
-      map development by <a href="https://ctdata.org">CTData Collaborative</a>',
+    attribution: 'data by the <a href="https://www.frontierinstitute.org/">Frontier Institute</a>,\
+      map development by the <a href="https://zoningatlas.org">National Zoning Atlas</a>',
     style: function(feature) { return style(filters, feature) },
     onEachFeature: function(feature, layer) {
 
@@ -425,7 +425,7 @@ var loadSewer = function() {
 
 var loadFederalState = function() {
 
-  $.getJSON('./data/federal-state.min.geojson', function(geojson) {
+  $.getJSON('./data/MT-federal.geojson', function(geojson) {
 
     var stripes = new L.StripePattern({
       height: 2,
@@ -448,7 +448,7 @@ var loadFederalState = function() {
     })
 
   });
-
+console.log("loaded federal land overlay")
 }
 
 
@@ -461,7 +461,7 @@ var initMap = function() {
     zoomControl: false,
     tap: false,
     maxZoom: 15,
-  }).setView([41.5744, -72.67], 10);
+  }).setView([46.866, -113.347], 7);
 
   L.control.zoom({ position: 'topright' }).addTo(map);
 
@@ -500,7 +500,7 @@ var initMap = function() {
   $.getJSON('./data/towns.min.geojson', loadTowns);
 
   // Load main data GeoJSON with zones
-  $.getJSON('./data/final.20220427.geojson', loadZones);
+  $.getJSON('./data/final.geojson', loadZones);
 
   // Add hash
   var hash = new L.Hash(map);
@@ -553,10 +553,10 @@ var initMap = function() {
       element: '#TypeOfZoningDistrict',
       popover: {
         title: 'What are the Zoning Districts?',
-        description: 'We have put the zoning districts in each town into one of three categories: \
+        description: '<p>We have put the zoning districts in each town into one of three categories: \
           <ul><li><strong>Primarily Residential</strong>: Districts where housing is the main use. They may also include things you might find in residential neighborhoods, like schools and churches.  We included farming-residential districts in rural towns in this category.</li>\
           <li> <strong>Mixed with Residential</strong>: Districts where housing and retail, office, or other commercial uses mix together. They are typically districts around our “main streets” or in areas meant to be developed flexibly.</li>\
-          <li> <strong>Nonresidential</strong>: Districts where housing is not allowed to be an independent use. However, some nonresidential districts allow accessory dwelling units, like an apartment for a night watchman in a factory setting.</li></ul>',
+          <li> <strong>Nonresidential</strong>: Districts where housing is not allowed to be an independent use. However, some nonresidential districts allow accessory dwelling units, like an apartment for a night watchman in a factory setting.</li></ul></p>',
         position: 'right'
       }
     },

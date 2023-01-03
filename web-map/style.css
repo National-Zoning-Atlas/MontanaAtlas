@@ -3,13 +3,12 @@
   position: absolute;
   width: 380px;
   max-height: calc(100vh - 20px);
-  overflow-y: scroll;
+  overflow-y: auto;
   background-color: white;
   top: 10px;
   left: 10px;
   opacity: 0.95;
 }
-
 
 .leaflet-control-layers.driver-fix-stacking {
   z-index: 999 !important;
@@ -92,4 +91,12 @@ hr {
 
 .bb-dotted {
   border-bottom: 1px dotted #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bebas Neue';
+}
+
+p, span, label {
+  font-family: 'Roboto Condensed';
 }
