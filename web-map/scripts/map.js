@@ -265,9 +265,9 @@ var addColorPolygonsToLegend = function() {
  */
 var townStyle = function(feature) {
   return {
-    stroke: feature.properties.NAME10 === townActive ? 5 : 2,
-    color: feature.properties.NAME10 === townActive ? 'yellow' : 'white',
-    opacity: feature.properties.NAME10 === townActive ? 1 : 0.4,
+    stroke: feature.properties.Jurisdiction === townActive ? 4 : 1,
+    color: feature.properties.Jurisdiction === townActive ? '#f7f9f7' : '#242c38',
+    opacity: feature.properties.Jurisdiction === townActive ? 1 : 0.4,
     fillOpacity: 0,
     fillColor: 'rgba(0,0,0,0)'
   }
@@ -321,13 +321,13 @@ var calculateActiveArea = function() {
 
   $('#activeAreaCalculator').html('<p class="ma0 mb2">' + satisfiesAcres + ' acres, or ' + satisfiesPerc
     + '% of <span class="bb-dotted" title="Excludes state- and federal-owned land, and unzoned parts of town">zoned municipal area</span> in <strong>' + townActive + '</strong> (' + totalAcres
-    + ' acres) satisfies your filtering criteria.</p><div style="font-size: 13px"><span class="black-50 dib w-third fl tl" title="Median Household Income">'
-    + '<span class="material-icons v-top" style="font-size:16px">payments</span> $' + demographics[townActive].income.toLocaleString()
-    + '<br>HH Income</span><span class="black-50 dib w-third fl tc" title="Black, Indigenous, People of Color">'
-    + '<span class="material-icons v-top" style="font-size:16px">people_alt</span> ' + demographics[townActive].bipoc
-    + '%<br>BIPOC</span><span class="black-50 dib fl ml2 tr" title="Cost-Burdened Households">'
-    + '<span class="material-icons v-top" style="font-size:16px">toll</span> ' + demographics[townActive].burdened + '%<br>Cost-Burdened</span>'
-    + '</div>');
+    + ' acres) satisfies your filtering criteria.</p><div style="font-size: 13px"><span class="black-50 dib w-third fl tl" title="Median Household Income">');
+    // + '<span class="material-icons v-top" style="font-size:16px">payments</span> $' + demographics[townActive].income.toLocaleString()
+    // + '<br>HH Income</span><span class="black-50 dib w-third fl tc" title="Black, Indigenous, People of Color">'
+    // + '<span class="material-icons v-top" style="font-size:16px">people_alt</span> ' + demographics[townActive].bipoc
+    // + '%<br>BIPOC</span><span class="black-50 dib fl ml2 tr" title="Cost-Burdened Households">'
+    // + '<span class="material-icons v-top" style="font-size:16px">toll</span> ' + demographics[townActive].burdened + '%<br>Cost-Burdened</span>'
+    // + '</div>');
   $('#activeAreaCalculator').removeClass('dn');
 
 }
@@ -497,7 +497,7 @@ var initMap = function() {
   setFilters();
 
   // Load town boundaries
-  $.getJSON('./data/towns.min.geojson', loadTowns);
+  $.getJSON('data/Jurisdictions.geojson', loadTowns);
 
   // Load main data GeoJSON with zones
   $.getJSON('./data/final.geojson', loadZones);
