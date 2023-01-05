@@ -19,12 +19,20 @@ var zType = 'Ty';
 var zAcres = 'MA'; // municipal area
 
 var style = function(filters, feature) {
-  var opacity = $('input[name="opacity"]').val() / 100;
-
-  return {
-    fillOpacity: opacity,
-    fillColor: satisfiesFilters(filters, feature) ? zone2color[feature.properties[zType]] : zone2color['NS'],
-    weight: 0
+  if (!satisfiesFilters(filters, feature)) {
+    return {
+      fillOpacity: 0,
+      fillColor: zone2color['NS'],
+      weight: 0.5,
+      color: 'grey'
+    }
+  } else {
+    var opacity = $('input[name="opacity"]').val() / 100;
+    return {
+      fillOpacity: opacity,
+      fillColor: zone2color[feature.properties[zType]],
+      weight: 0
+    }
   }
 }
 
