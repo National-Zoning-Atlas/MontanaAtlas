@@ -266,8 +266,8 @@ var addColorPolygonsToLegend = function() {
 var townStyle = function(feature) {
   return {
     stroke: feature.properties.Jurisdiction === townActive ? 4 : 1,
-    color: feature.properties.Jurisdiction === townActive ? '#f7f9f7' : '#242c38',
-    opacity: feature.properties.Jurisdiction === townActive ? 1 : 0.4,
+    color: feature.properties.Jurisdiction === townActive ? '#242c38' : '#f7f9f7',
+    opacity: feature.properties.Jurisdiction === townActive ? 0.6 : 0.4,
     fillOpacity: 0,
     fillColor: 'rgba(0,0,0,0)'
   }
