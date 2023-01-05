@@ -86,7 +86,9 @@ var loadZones = function(geojson) {
           + ( pp['AHD'] == 'Yes' ? 'Affordable  Housing Only<br>' : '' )
           + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
           + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
+          + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
           + ( pp['TN'] ? '<strong>Note:</strong> ' + pp['TN']: '' ),
+          
         { sticky: true } );
     }
 
