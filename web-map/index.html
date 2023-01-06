@@ -480,45 +480,33 @@
       <div id="Overlays">
         <h2 class="f4 mb1 black-40">Overlays</h2>
 
-        <!-- <label class="f5" title="Includes ponds, lakes, oceans, swamps, glaciers, and the area covered by large rivers, streams, and/or canals. Data from TIGER/Line Shapefile, 2010, CT, Current Area Hydrography Shapefile.">
-          <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="hydro">
-            Waterways
-        </label> -->
+        <label class="f5" title="">
+          <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="fs">
+            Federal Land
+        </label>
 
         <br>
 
         <label class="f5" title="">
-          <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="fs">
-            Federal/Public Lands
+          <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="sl">
+            State Land
         </label>
         
-        <div id="ZoneOpacity">
-          <h2 class="f5 mb1 black-40">Zone Opacity</h2>
-          <input type="range" min="1" max="100" value="90" name="opacity">
-        </div>
-        
-        <!-- <br> -->
+        <br>
 
-        <!-- <label class="f5" title="">
-          <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="sewer">
-            Sewer Service Areas
-        </label> -->
+        <label class="f5" title="">
+          <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="tribes">
+            Tribal Land
+        </label>
 
-        <!-- <div class="filter-group">
-          <label class="f5">
-            <input type="checkbox" class="h1 w1 main-in-group" name="Overlay" value="transit">
-              Transit Stations (Rail & CTfastrak)
-          </label> -->
-
-          <div class="pl1 dn subgroup pb2 bb b--black-10">
-            <span class="f6 black-50 ml3 pl1 i">Circles represent 0.5-mile radius</span>
-          </div>
-        </div>
       </div>
 
       <!-- Opacity Slider -->
 
-      
+      <div id="ZoneOpacity">
+          <h2 class="f5 mb1 black-40">Zone Opacity</h2>
+          <input type="range" min="1" max="100" value="90" name="opacity">
+      </div>
 
     </form>
 

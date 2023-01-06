@@ -42,7 +42,7 @@ var loadZones = function(geojson) {
 
   dataLayer = L.geoJSON(geojson, {
     attribution: 'data by the <a href="https://www.frontierinstitute.org/">Frontier Institute</a>,\
-      map development by the <a href="https://zoningatlas.org">National Zoning Atlas</a>',
+      map development by the <a href="https://zoningatlas.org">National Zoning Atlas</a>. Supporting data from the Montana State Library and Living Atlas of the World.',
     style: function(feature) { return style(filters, feature) },
     onEachFeature: function(feature, layer) {
 
@@ -95,7 +95,7 @@ var loadZones = function(geojson) {
 
 
   // Turn on federal/state land by default
-  $('input[name="Overlay"][value="fs"]').prop('checked', true);
+  // $('input[name="Overlay"][value="fs"]').prop('checked', true);
 
   // Add selected overlays to the map
   $('input[name="Overlay"]:checked').each(function(i, el) {
@@ -290,6 +290,51 @@ var loadTowns = function(bounds) {
   towns.addTo(map);
 }
 
+var loadState = function(bounds) {
+
+  towns = L.geoJSON(bounds, {
+    pane: 'overlays',
+    interactive: false,
+    style: stateStyle
+  });
+
+  towns.addTo(map);
+}
+
+var stateStyle = {
+  stroke: .75,
+  color: '#242c38',
+  fill: false,
+  opacity: 0.6,
+}
+
+var loadStateLand = function(bounds) {
+  $.getJSON('data/StateLand.geojson', function(geojson) {
+
+    var stripes = new L.StripePattern({
+      height: 2,
+      width: 2,
+      weight: 1,
+      spaceWeight: 1,
+      angle: 60,
+      color: '#ab4962',
+    });
+    stripes.addTo(map);
+
+    overlays['sl'] = L.geoJSON(geojson, {
+      interactive: false,
+      stroke: false,
+      pane: 'overlays',
+      style: {
+        fillOpacity: 1,
+        fillPattern: stripes
+      }
+    })
+
+  });
+}
+
+
 
 /*
  * Calculates what % of a selected town satisfies filtering criteria,
@@ -395,9 +440,9 @@ var loadHydro = function() {
 }
 
 
-var loadSewer = function() {
+var loadTribes = function() {
 
-  $.getJSON('./data/sewer.min.geojson', function(geojson) {
+  $.getJSON('data/TribalLand.geojson', function(geojson) {
 
     var stripes = new L.StripePattern({
       height: 4,
@@ -409,7 +454,7 @@ var loadSewer = function() {
     });
     stripes.addTo(map);
 
-    overlays['sewer'] = L.geoJSON(geojson, {
+    overlays['tribes'] = L.geoJSON(geojson, {
       interactive: false,
       stroke: false,
       pane: 'overlays',
@@ -449,7 +494,6 @@ var loadFederalState = function() {
     })
 
   });
-console.log("loaded federal land overlay")
 }
 
 
@@ -497,11 +541,16 @@ var initMap = function() {
 
   setFilters();
 
+  // Add state boundary from geojson
+  $.getJSON('data/MontanaBoundary.geojson', loadState);
+
   // Load town boundaries
   $.getJSON('data/Jurisdictions.geojson', loadTowns);
 
   // Load main data GeoJSON with zones
   $.getJSON('./data/final.geojson', loadZones);
+
+  
 
   // Add hash
   var hash = new L.Hash(map);
@@ -516,8 +565,9 @@ var initMap = function() {
   // Add overlays
   loadTransit();
   loadHydro();
-  loadSewer();
+  loadTribes();
   loadFederalState();
+  loadStateLand();
 
   // Add Esri geocoder
   var searchControl = L.esri.Geocoding.geosearch({
