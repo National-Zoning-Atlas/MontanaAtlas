@@ -6,9 +6,9 @@ var dataLayer; // GeoJSON layer with district data
 var overlays = {};  // An object to contain overlay layer groups, eg `transit`
 
 var zone2color = {
-  'R': '#485870', // primarily residential, satisfied
-  'M': '#ce823b', // mixed with residential, satisfied
-  'N': '#868e98', // nonresidential, satisfied
+  'R': '#0c7489', // primarily residential, satisfied
+  'M': '#9ad2cb', // mixed with residential, satisfied
+  'N': '#d6975c', // nonresidential, satisfied
   'NS': '#f2eeeb', // not satisfied
 }
 
@@ -19,20 +19,11 @@ var zType = 'Ty';
 var zAcres = 'MA'; // municipal area
 
 var style = function(filters, feature) {
-  if (!satisfiesFilters(filters, feature)) {
-    return {
-      fillOpacity: 0,
-      fillColor: zone2color['NS'],
-      weight: 0.5,
-      color: 'grey'
-    }
-  } else {
-    var opacity = $('input[name="opacity"]').val() / 100;
-    return {
-      fillOpacity: opacity,
-      fillColor: zone2color[feature.properties[zType]],
-      weight: 0
-    }
+  var opacity = $('input[name="opacity"]').val() / 100;
+  return {
+    fillOpacity: opacity,
+    fillColor: satisfiesFilters(filters, feature) ? zone2color[feature.properties[zType]] : zone2color['NS'],
+    weight: 0
   }
 }
 
