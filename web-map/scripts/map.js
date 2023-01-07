@@ -82,7 +82,7 @@ var loadZones = function(geojson) {
       layer.bindTooltip(!pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
         ? '<strong>Not Zoned</strong><br>' + pp[zTown]
         : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
-          + ( pp['AHT'] == 'A' ? '<strong>Affordable Housing Bonus(es) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
+          + ( pp['AHT'] == 'A' ? '<strong>Affordable Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
           + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
           + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
           + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
