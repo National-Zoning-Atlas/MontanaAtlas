@@ -38,6 +38,9 @@
   <script src="data/transit.js"></script>
   <script src="scripts/map.js"></script>
 
+  <!-- Load Leaflet Pip -->
+  <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
+
   <!-- Load Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed&display=swap" rel="stylesheet">
 	<style> @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed&display=swap'); </style>
@@ -214,6 +217,13 @@
                 <input type="checkbox" class="checked-by-default" name="2F" value="AH">
                   Allowed Only After Public Hearing
               </label>
+
+              <br>
+
+              <label>
+                <input type="checkbox" class="" name="2AHO" value="Yes">
+                  Allowed Only If Income Restricted
+              </label>
             </div>
         
             <h5 class="f6 mb0 mt2 black-80 pl1">Minimum Lot Size, acres</h5>
@@ -308,7 +318,15 @@
                 <input type="checkbox" class="checked-by-default" name="3F" value="AH">
                   Allowed Only After Public Hearing
               </label>
+              
+              <br>
+
+              <label>
+                <input type="checkbox" class="" name="3AHO" value="Yes">
+                  Allowed Only If Income Restricted
+              </label>
             </div>
+              
 
             <h5 class="f6 mb0 mt2 black-80 pl1">Minimum Lot Size, acres</h5>
             <div class="at-least-one-checked pa1 br1">
@@ -401,6 +419,13 @@
               <label>
                 <input type="checkbox" class="checked-by-default" name="4F" value="AH">
                   Allowed Only After Public Hearing
+              </label>
+
+              <br>
+
+              <label>
+                <input type="checkbox" class="" name="4AHO" value="Yes">
+                  Allowed Only If Income Restricted
               </label>
             </div>
 
@@ -536,7 +561,7 @@
         <div class="filter-group">
           <label class="f5">
             <input type="checkbox" class="w1 h1 main-in-group" name="AHT" value="A">
-              <span>Affordable Housing</span>
+              <span>Income Restricted Housing</span>
           </label>
         </div>
 
@@ -573,6 +598,14 @@
 
           
         </div>
+
+        <!-- Overlays -->
+        <!-- <div class="filter-group">
+          <label class="f5">
+            <input type="checkbox" class="w1 h1 main-in-group" name="O" value="No">
+              <span>Zoning District Overlays</span>
+          </label>
+        </div> -->
 
       </div>
 
@@ -621,6 +654,5 @@
     </p>
 
   </div>
-
 </body>
 </html>

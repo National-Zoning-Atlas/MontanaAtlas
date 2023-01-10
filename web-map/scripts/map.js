@@ -78,11 +78,31 @@ var loadZones = function(geojson) {
 
       });
 
-      // Add tooltip
+      // experimental tooltip
+    //   layer.bindTooltip(function(e) {
+    //     console.log(e);
+    //     leafletPip.bassackwards = true;
+    //     var features = leafletPip.pointInLayer(e._latlngs, dataLayer, true);
+    //     console.log(typeof features)
+    //     var tooltips = features.map(function(f) {
+    //         return !pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
+    //             ? '<strong>Not Zoned</strong><br>' + pp[zTown]
+    //             : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
+    //               + ( pp['AHT'] == 'A' ? '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
+    //               + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
+    //               + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
+    //               + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
+    //               + ( pp['TN'] ? '<strong>Note:</strong> ' + pp['TN']: '' );
+    //     });
+    //     console.log(tooltips);
+    //     return tooltips.join('<br>');
+    // }, { sticky: true });
+
+    // Add tooltip
       layer.bindTooltip(!pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
         ? '<strong>Not Zoned</strong><br>' + pp[zTown]
         : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
-          + ( pp['AHT'] == 'A' ? '<strong>Affordable Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
+          + ( pp['AHT'] == 'A' ? '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
           + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
           + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
           + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
@@ -276,9 +296,10 @@ var townStyle = function(feature) {
 
 
 /*
- * Given towns GeoJSON file in `bounds`, adds non-interactivve town boundaries
+ * Given towns GeoJSON file in `bounds`, adds non-interactive town boundaries
  * layer to the map
  */
+
 var loadTowns = function(bounds) {
 
   towns = L.geoJSON(bounds, {
@@ -334,8 +355,6 @@ var loadStateLand = function(bounds) {
   });
 }
 
-
-
 /*
  * Calculates what % of a selected town satisfies filtering criteria,
  * and updates the message in the sidebar 
@@ -375,67 +394,6 @@ var calculateActiveArea = function() {
     // + '<span class="material-icons v-top" style="font-size:16px">toll</span> ' + demographics[townActive].burdened + '%<br>Cost-Burdened</span>'
     // + '</div>');
   $('#activeAreaCalculator').removeClass('dn');
-
-}
-
-
-/*
- * Creates a layer group of rail/fastrak markers from `transit.js` data.
- */ 
-var loadTransit = function() {
-
-  var transitMarkers = transit.map(function(o) {
-    return L.marker([o.Latitude, o.Longitude], {
-      icon: L.icon({
-        iconUrl: 'img/' + o.Mode + '.png',
-        iconSize: o.Mode === 'rail' ? [24, 24] : [16, 16],
-        iconAnchor: o.Mode === 'rail' ? [12, 12] : [8, 8],
-      })
-    }).bindTooltip(o.Name + '<br> <em class="ttc">' + o.Mode + '</em>')
-  });
-
-  var transitCircles = transit.map(function(o) {
-    return L.circle([o.Latitude, o.Longitude], {
-      radius: 804.5, // half a mile, in meters
-      weight: 1,
-      color: 'white',
-      fillColor: 'white',
-      opacity: 0.9,
-      fillOpacity: 0.2,
-      interactive: false
-    });
-  });
-
-  overlays['transit'] = L.layerGroup( transitCircles.concat(transitMarkers) );
-
-}
-
-
-var loadHydro = function() {
-
-  $.getJSON('./data/hydro.min.geojson', function(geojson) {
-
-    var stripes = new L.StripePattern({
-      height: 2,
-      width: 2,
-      weight: 1,
-      spaceWeight: 1,
-      angle: -45,
-      color: '#C6DDFF',
-    });
-    stripes.addTo(map);
-
-    overlays['hydro'] = L.geoJSON(geojson, {
-      interactive: false,
-      stroke: false,
-      pane: 'overlays',
-      style: {
-        fillOpacity: 1,
-        fillPattern: stripes
-      }
-    })
-
-  });
 
 }
 
@@ -550,8 +508,6 @@ var initMap = function() {
   // Load main data GeoJSON with zones
   $.getJSON('./data/final.geojson', loadZones);
 
-  
-
   // Add hash
   var hash = new L.Hash(map);
 
@@ -563,8 +519,6 @@ var initMap = function() {
   map.getPane('overlays').style.zIndex = 501;
   
   // Add overlays
-  loadTransit();
-  loadHydro();
   loadTribes();
   loadFederalState();
   loadStateLand();
@@ -573,7 +527,7 @@ var initMap = function() {
   var searchControl = L.esri.Geocoding.geosearch({
     position: 'topright',
     allowMultipleResults: false,
-    searchBounds: [[40.98, -73.74], [42.04, -71.78]]
+    //searchBounds: [[40.98, -73.74], [42.04, -71.78]]
   }).addTo(map);
 
   var results = L.layerGroup().addTo(map);
