@@ -569,8 +569,15 @@ var initMap = function() {
       element: '#PermittedResidentialUses',
       popover: {
         title: 'Select Permitted Residential Uses',
-        description: '<p>Select one or more of the <strong>Permitted Residential Uses</strong> from the menu on the left-hand side of this screen. The purple and pink hues on the map will show you what kind of zoning district the chosen residential use appears in.</p>\
-        <p>Explore the specific conditions under which your selected Permitted Residential Use is allowed, like <strong>minimum lot size</strong> requirements, <strong>public hearing</strong> requirements, or restrictions for <strong>elderly housing</strong>.</p>',
+        description: '<p>Select one or more of the <strong>Permitted Residential Uses</strong> from the menu on the left-hand side of this screen. The blue hues on the map will show you what kind of zoning district the chosen residential use appears in.</p>\
+        <p>Explore the specific conditions under which your selected Permitted Residential Use is allowed, like:\
+        <ul><li><strong>Minimum lot size</strong> requirements</li>\
+        <li><strong>Public hearing</strong> requirements</li>\
+        <li>Restrictions for <strong>elderly housing</strong></li>\
+        <li>Restrictions for <strong>accessory dwelling units</strong></li>\
+        <li><strong>Income restricted housing</strong> density bonuses</li>\
+        <li>Planned Residential Development districts</strong></li>\
+        </ul></p>',
         position: 'right'
       },
       onNext: function() {
@@ -584,8 +591,7 @@ var initMap = function() {
       element: '#map',
       popover: {
         title: 'Click the Map to Learn About Your Town',
-        description: 'Click the map for the popup to appear on top of the map. It will tell you what percent of land satisfies your selection criteria, as well as\
-          median household income, the percent of people cost-burdened (spending 30% or more of their income on housing), and what percent of the population identifies as Black, Indigenous, or as a person of color (BIPOC).',
+        description: 'Click the map for the popup to appear on top of the map. It will tell you what percent of land satisfies your selection criteria, showing you how much land each jurisdiction devotes to the type of housing you selected.',
         position: 'mid-center',
       },
       onNext: function() {
@@ -598,9 +604,7 @@ var initMap = function() {
       element: '#Overlays',
       popover: {
         title: 'Explore the Overlays',
-        description: 'You can toggle between the <strong>Transit and Waterways \
-          Overlays</strong> to visualize areas within a half mile of passenger rail and \
-          CT<i>fastrak</i>, as well as bodies of water within the state.',
+        description: 'You can toggle the overlays to see land owned/managed by federal agencies, state agencies, or tribal governments.',
         position: 'right'
       }
     },
