@@ -7,8 +7,8 @@ var overlays = {};  // An object to contain overlay layer groups, eg `transit`
 
 var zone2color = {
   'R': '#0c7489', // primarily residential, satisfied
-  'M': '#9ad2cb', // mixed with residential, satisfied
-  'N': '#d6975c', // nonresidential, satisfied
+  'M': '#53A3AA', // mixed with residential, satisfied
+  'N': '#9ad2cb', // nonresidential, satisfied (the good brown shade: d6975c)
   'NS': '#f2eeeb', // not satisfied
 }
 
@@ -81,7 +81,7 @@ var loadZones = function(geojson) {
       // experimental tooltip
     //   layer.bindTooltip(function(e) {
     //     console.log(e);
-    //     leafletPip.bassackwards = true;
+    //     //leafletPip.bassackwards = true;
     //     var features = leafletPip.pointInLayer(e._latlngs, dataLayer, true);
     //     console.log(typeof features)
     //     var tooltips = features.map(function(f) {
@@ -99,16 +99,16 @@ var loadZones = function(geojson) {
     // }, { sticky: true });
 
     // Add tooltip
-      layer.bindTooltip(!pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
-        ? '<strong>Not Zoned</strong><br>' + pp[zTown]
-        : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
-          + ( pp['AHT'] == 'A' ? '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
-          + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
-          + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
-          + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
-          + ( pp['TN'] ? '<strong>Note:</strong> ' + pp['TN']: '' ),
+      // layer.bindTooltip(!pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
+      //   ? '<strong>Not Zoned</strong><br>' + pp[zTown]
+      //   : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
+      //     + ( pp['AHT'] == 'A' ? '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
+      //     + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
+      //     + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
+      //     + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
+      //     + ( pp['TN'] ? '<strong>Note:</strong> ' + pp['TN']: '' ),
           
-        { sticky: true } );
+      //   { sticky: true } );
     }
 
   }).addTo(map);
@@ -359,6 +359,7 @@ var loadStateLand = function(bounds) {
  * Calculates what % of a selected town satisfies filtering criteria,
  * and updates the message in the sidebar 
  */
+
 var calculateActiveArea = function() {
 
   if (!townActive) {
@@ -370,6 +371,7 @@ var calculateActiveArea = function() {
   
   var totalAcres = 0;
   var satisfiesAcres = 0;
+  
   
   dataLayer.eachLayer(function(l) {
     if (l.feature.properties[zTown] === townActive) {
@@ -385,7 +387,7 @@ var calculateActiveArea = function() {
   totalAcres = parseInt(totalAcres).toLocaleString();
 
   $('#activeAreaCalculator').html('<p class="ma0 mb2">' + satisfiesAcres + ' acres, or ' + satisfiesPerc
-    + '% of <span class="bb-dotted" title="Excludes state- and federal-owned land, and unzoned parts of town">zoned municipal area</span> in <strong>' + townActive + '</strong> (' + totalAcres
+    + '% of <span class="bb-dotted" title="Excludes state- and federal-owned land, and unzoned parts of town">zoned area</span> in <strong>' + townActive + '</strong> (' + totalAcres
     + ' acres) satisfies your filtering criteria.</p><div style="font-size: 13px"><span class="black-50 dib w-third fl tl" title="Median Household Income">');
     // + '<span class="material-icons v-top" style="font-size:16px">payments</span> $' + demographics[townActive].income.toLocaleString()
     // + '<br>HH Income</span><span class="black-50 dib w-third fl tc" title="Black, Indigenous, People of Color">'
