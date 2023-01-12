@@ -1,7 +1,7 @@
 #sidebar {
   z-index: 999 !important;
   position: absolute;
-  width: 380px;
+  width: 32%;
   max-height: calc(100vh - 20px);
   overflow-y: auto;
   background-color: white;
