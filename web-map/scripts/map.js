@@ -4,6 +4,7 @@ var townActive; // Selected town name
 
 var dataLayer; // GeoJSON layer with district data
 var overlays = {};  // An object to contain overlay layer groups, eg `transit`
+var tooltip = L.tooltip({sticky: true}); // Tooltip for the map
 
 var zone2color = {
   'R': '#0c7489', // primarily residential, satisfied
@@ -41,8 +42,7 @@ var loadZones = function(geojson) {
   var filters = getFilters();
 
   dataLayer = L.geoJSON(geojson, {
-    attribution: 'data by the <a href="https://www.frontierinstitute.org/">Frontier Institute</a>,\
-      map development by the <a href="https://zoningatlas.org">National Zoning Atlas</a>. Supporting data from the Montana State Library and Living Atlas of the World.',
+    attribution: 'data by the <a href="https://www.frontierinstitute.org/">Frontier Institute</a>, map development by the <a href="https://zoningatlas.org">National Zoning Atlas</a>. Supporting data from the Montana State Library and Living Atlas of the World.',
     style: function(feature) { return style(filters, feature) },
     onEachFeature: function(feature, layer) {
 
@@ -77,42 +77,87 @@ var loadZones = function(geojson) {
         }
 
       });
+      
+      // working multipolygon tooltip
+      layer.on("mousemove", function (e) {
+        var lat = e.latlng.lat;
+        var lon = e.latlng.lng;
+        var polygonProperties = getDistricts(map, dataLayer, lat, lon);
+        var tooltipText = "";
+        for (var key in polygonProperties) {
+          if (!polygonProperties[key] || polygonProperties[key] === 'Not Zoned' || polygonProperties[key] === 'NULL') {
+            tooltipText += '<strong>Not Zoned</strong><br>' + polygonProperties[key][zTown];
+          } else {
+            tooltipText += '<h6 class="t-t ttu">' + key + '</h6><strong class="black-50">' + polygonProperties[key][zTown] + '</strong><br>';
+            if (polygonProperties[key]['O'] == 'Yes') {
+              tooltipText += '(Overlay District - may modify base district characteristics)<br>';
+            }
+            if (polygonProperties[key]['AHT'] == 'A') {
+              tooltipText += '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + polygonProperties[key]['AHD'] + '"' + '<br>';
+            }
+            if (polygonProperties[key]['EHD'] == 'Yes') {
+              tooltipText += 'Elderly Housing Only<br>';
+            }
+            if (polygonProperties[key]['MUS'] == '1') {
+              tooltipText += 'Requires a Minimum Home Size<br>';
+            }
+            if (polygonProperties[key]['PK'] && polygonProperties[key]['PK'].length > 1) {
+              tooltipText += '<strong>Parking Required: </strong>' + polygonProperties[key]['PK'] + '<br>';
+            }
+            if (polygonProperties[key]['TN']) {
+              tooltipText += '<strong>Note:</strong> ' + polygonProperties[key]['TN'];
+            }
+          }
 
-      // experimental tooltip
-    //   layer.bindTooltip(function(e) {
-    //     console.log(e);
-    //     //leafletPip.bassackwards = true;
-    //     var features = leafletPip.pointInLayer(e._latlngs, dataLayer, true);
-    //     console.log(typeof features)
-    //     var tooltips = features.map(function(f) {
-    //         return !pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
-    //             ? '<strong>Not Zoned</strong><br>' + pp[zTown]
-    //             : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
-    //               + ( pp['AHT'] == 'A' ? '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
-    //               + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
-    //               + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
-    //               + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
-    //               + ( pp['TN'] ? '<strong>Note:</strong> ' + pp['TN']: '' );
-    //     });
-    //     console.log(tooltips);
-    //     return tooltips.join('<br>');
-    // }, { sticky: true });
+        }
+  
+        if (tooltipText != "") {
+          tooltip.setLatLng(e.latlng).setContent(tooltipText).addTo(map);
+        } else {
+          tooltip.remove();
+        }
+      });
 
     // Add tooltip
-      layer.bindTooltip(!pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
-        ? '<strong>Not Zoned</strong><br>' + pp[zTown]
-        : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
-          + ( pp['AHT'] == 'A' ? '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
-          + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
-          + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
-          + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
-          + ( pp['TN'] ? '<strong>Note:</strong> ' + pp['TN']: '' ),
+      // layer.bindTooltip(!pp[zName] || pp[zName] === 'Not Zoned' || pp[zName] === 'NULL'
+      //   ? '<strong>Not Zoned</strong><br>' + pp[zTown]
+      //   : '<h6 class="t-t ttu">' + pp[zName] + '</h6><strong class="black-50">' + pp[zTown] + '</strong><br>'
+      //     + ( pp['AHT'] == 'A' ? '<strong>Income Restricted Housing Incentive(s) Available!</strong><br> The definition of affordable housing in this district is: ' + '"' + pp['AHD'] + '"' + '<br>': '' )
+      //     + ( pp['EHD'] == 'Yes' ? 'Elderly Housing Only<br>' : '' )
+      //     + ( pp['MUS'] == '1' ? 'Requires a Minimum Home Size<br>' : '' )
+      //     + ( pp['PK'] && pp['PK'].length > 1 ? '<strong>Parking Required: </strong>' + pp['PK'] + '<br>' : '' )   
+      //     + ( pp['TN'] ? '<strong>Note:</strong> ' + pp['TN']: '' ),
           
-        { sticky: true } );
+      //   { sticky: true } );
     }
 
-  }).addTo(map);
+  }
+  
+  ).addTo(map);
 
+  // Function to get all the features that intersect with the location of the mouse pointer
+  function getDistricts(map, layerGroup, lat, lon) {
+    var point = turf.point([lon, lat]);
+    var polygonProperties = {};
+  
+    layerGroup.eachLayer(function (layer) {
+      var isWithin = turf.booleanWithin(point, layer.toGeoJSON());
+      if (isWithin) {
+        polygonProperties[layer.feature.properties.Z] = layer.feature.properties;
+      }
+    });
+  
+    if (Object.keys(polygonProperties).length === 0) {
+      //console.log("The mouse pointer does not intersect with any polygons.");
+    } else {
+      console.log(
+        //"The mouse pointer intersects with the following polygons properties: ",
+        // polygonProperties
+      );
+      return polygonProperties;
+    }
+  }
+  
 
   // Turn on federal/state land by default
   // $('input[name="Overlay"][value="fs"]').prop('checked', true);
