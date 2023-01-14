@@ -107,6 +107,7 @@ var loadZones = function(geojson) {
             if (polygonProperties[key]['TN']) {
               tooltipText += '<strong>Note:</strong> ' + polygonProperties[key]['TN'];
             }
+            tooltipText += '<hr>';
           }
 
         }
