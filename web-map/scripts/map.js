@@ -161,7 +161,7 @@ var loadZones = function(geojson) {
   
 
   // Turn on federal/state land by default
-  // $('input[name="Overlay"][value="fs"]').prop('checked', true);
+  $('input[name="Overlay"][value="fs"]').prop('checked', true);
 
   // Add selected overlays to the map
   $('input[name="Overlay"]:checked').each(function(i, el) {
